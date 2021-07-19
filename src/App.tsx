@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component }from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import CountButton from './CountButton'
+import Home from './components/pages/Home';
+import About from './components/pages/About';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 import './App.css';
+import AuthState from './context/auth/authState';
+import setAuthToken from './utils/setAuthToken';
+
+if (localStorage.getItem('token')) {
+  setAuthToken(localStorage.getItem('token'));
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  <AuthState>
+   <Router>
+     <div className='container'>
+       <Switch>
+         <Route exact path='/' component={Home} />
+         <Route exact path='/about' component={About} />
+         <Route exact path='/login' component={Login} />
+         <Route exact path='/register' component={Register} />
+       </Switch>
+     </div>
+   </Router>
+  </AuthState>
   );
 }
+
 
 export default App;
